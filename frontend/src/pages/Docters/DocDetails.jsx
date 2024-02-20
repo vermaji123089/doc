@@ -15,8 +15,14 @@ const ProductDetails = () => {
   
 
   const { id } = useParams();
-
+  const localToken = localStorage.getItem("token");
   useEffect(() => {
+    if (localToken) {
+      console.log("ok");
+    }else{
+      window.location.href = "/"
+    }
+
     // Find the doctor with matching id
     const foundDoctor = doctors.find(doctor => doctor.id === id);
     setDoctor(foundDoctor);
@@ -51,7 +57,7 @@ const ProductDetails = () => {
                   <div className='text-red-600 mt-1'>Hospital Name: {doctor.hospital}</div>
                 </div>
                 <button className='hover:opacity-70 w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3'>
-                  ADD to Cart
+                  Make Appointment
                 </button>
                 <button className='hover:opacity-70 w-full py-4 rounded-full bg-white text-black border border-black text-lg font-medium transition-transform active:scale-95 mb-3 flex items-center mb-10 gap-2 justify-center hover:opacity-70'>
                   Whishlist <IoMdHeartEmpty size={20} />

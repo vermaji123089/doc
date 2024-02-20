@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const body_parser = require("body-parser")
 const UserSchema = require('./models/UserSchema')
+const DoctorSchema = require('./models/DoctorSchema')
 const UserSession = require("./models/UserSession")
 dotenv.config()
 
@@ -14,7 +15,7 @@ const app = express();
 
 app.use(express.json())
 app.use(cors({
-    origin:["http://localhost:5174"],
+    origin:["http://localhost:5173"],
     methods:['GET','POST'],
     credentials:true
 }))
@@ -193,6 +194,34 @@ app.post("/api/removeToken", (req, res) => {
         });
     });
 });
+
+// admin panel api
+
+app.get("/api/getAlluser", (req,res)=>{
+    let users = UserSchema.find()
+    .then(result=>res.json(result))
+    .catch(err=>err)
+})
+
+// add docter in docter schema
+
+app.post("/api/add/docter",(req,res)=>{
+    const {email,name,phone,ticketPrice,specialization,experiences,bio,about,averageRating} = req.body;
+    DoctorSchema.create({email,name,phone,ticketPrice,specialization,experiences,bio,about,averageRating}).then(docter => res.json({
+        Status: "success",
+        docter
+    })).catch(err=> res.json(err))
+
+
+})
+
+// make appountment |======>
+// panding
+app.post("api/make/appointment", (req,res)=>{
+    const {email,name,dr_name} = req.body;
+
+})
+
 app.listen(3001 ,()=>{
  
     console.log("server is running http://localhost:3001/"); 
@@ -215,3 +244,4 @@ app.listen(3001 ,()=>{
 //        console.log("DB connection is failed"); 
 //     }
 // }
+

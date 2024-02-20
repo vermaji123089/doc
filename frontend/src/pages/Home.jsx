@@ -57,8 +57,8 @@ const Home = () => {
                 <div className="lg:w-[570px]  ">
                   {localToken ? (
                     <h1 className="text-[36px] leading-[46px] text-headingColor font-[800] md:text-[60px] md:leading-[70px] ">
-                      We Help Patimes live a healthy, longer life. {userName}{" "}
-                      {value}
+                      We Help Patimes live a healthy, longer life. {userName}
+                     
                     </h1>
                   ) : (
                     <h1 className="text-[36px] leading-[46px] text-headingColor font-[800] md:text-[60px] md:leading-[70px] ">

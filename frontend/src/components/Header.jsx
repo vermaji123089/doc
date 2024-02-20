@@ -5,34 +5,33 @@ import { Link, NavLink } from 'react-router-dom'
 import {BiMenu} from 'react-icons/bi'
 import { UserContext } from '../routes/Router'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
 const Header = () => {
 
+  const user = useSelector((state) => state.auth.user);
 
-  
-  const [userEmail, setUserEmail] = useState("");
-  const [usertoken, setUsertoken] = useState("");
-  const [userName, setUserName] = useState("");
+
   const localToken = localStorage.getItem("token");
-  useEffect(() => {
-    axios.post("http://localhost:3001/api/getUser", { token: localToken })
-      .then(result => {
+  // useEffect(() => {
+  //   axios.post("http://localhost:3001/api/getUser", { token: localToken })
+  //     .then(result => {
 
-        if (result.data.Status === "success") {
-          setUserEmail(result.data.user.email);
-          setUserName(result.data.user.name);
-          setUsertoken(result.data.user.token);
-          // console.log(result.data.user.email);
-          // console.log(result.data.user.name);
-          // Handle successful response here
-        }
-      })
-      .catch(error => {
-        // Handle errors
-        console.error('Error:', error);
-      });
+  //       if (result.data.Status === "success") {
+  //         setUserEmail(result.data.user.email);
+  //         setUserName(result.data.user.name);
+  //         setUsertoken(result.data.user.token);
+  //         // console.log(result.data.user.email);
+  //         // console.log(result.data.user.name);
+  //         // Handle successful response here
+  //       }
+  //     })
+  //     .catch(error => {
+  //       // Handle errors
+  //       console.error('Error:', error);
+  //     });
 
     
-  }, []); // Empty dependency array to run effect only once on component mount
+  // }, []); // Empty dependency array to run effect only once on component mount
   const handlelogout = ()=>{
     axios.post("http://localhost:3001/api/removeToken",{token:localToken}).then(result=>console.log(result)).catch(err=>err)
     localStorage.removeItem('token'); 
@@ -99,6 +98,9 @@ const Header = () => {
                  </li>
               ))
             } 
+            {user?.role == "admin" ? <li>
+                  <NavLink to='/admin' className={navclass=>navclass.isActive? 'text-primaryColor text-[16px] leading-7 from-600 ' : "text-textColor text-[16px] leading-7 font-[500] hover:text-primaryColor "} >Deshboard</NavLink>
+                 </li>:""}
              </ul>
         </div>
 <div className="flex items-center gap-5">
@@ -111,7 +113,7 @@ const Header = () => {
                   </figure>
                 </Link>
               </div>
-              {localToken? <h1>{userName}</h1> : ""}
+              {localToken? <h1>{user?.name}</h1> : ""}
             {localToken?
              <Link to=''>
             <button className='bg-primaryColor py5 px-6 text-white font-[600] h-[44px] flex items-center cursor-pointer justify-center rounded-[50px] ' onClick={handlelogout} >Logout</button>

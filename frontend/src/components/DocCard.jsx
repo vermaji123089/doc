@@ -6,6 +6,9 @@ const DocCard = ({docter}) => {
 
     const {id,name,specialization,avgRating,totalRating,photo,totalPatients,hospital} = docter
     const localToken = localStorage.getItem("token");
+
+    
+
   return (
     <div className='p-3 lg:p-5 ' >
         <div>

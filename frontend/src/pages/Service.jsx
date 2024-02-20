@@ -9,7 +9,7 @@ const Service = () => {
   // const [userEmail, setUserEmail] = useState("");
   // const [userName, setUserName] = useState("");
 
-  // const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
 
   // console.log("User", user);
 
@@ -38,9 +38,11 @@ const Service = () => {
 
   return (
     <div>
-      {/* <p>Email: {user?.email}</p>
+      <p>Email: {user?.email}</p>
       <p>Name: {user?.name}</p>
-      Service */}
+      <p>Name: {user?.role}</p>
+      <p>Name: {user?.role}</p>
+      Service
 
 <br />
       <div className="grid gap-6">

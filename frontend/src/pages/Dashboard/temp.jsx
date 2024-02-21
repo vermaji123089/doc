@@ -5,7 +5,15 @@ import { useSelector } from "react-redux";
 
 const DocListAdmin = () => {
   const docters = useSelector((state) => state.docters.docters);
+  // console.log(docters);
   const [showModal, setShowModal] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("@gmail.com");
+  const [phone, setPhone] = useState("");
+  const [price, setPrice] = useState("");
+  const [specialization, setSpecialization] = useState("");
+  const [about, setAbout] = useState("");
+  const [image, setImage] = useState(); // State to hold the selected image file
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -76,7 +84,8 @@ const DocListAdmin = () => {
           className="modal fixed top-0 left-0 w-full h-full flex items-center justify-center z-111 "
           style={{ background: "rgba(0, 0, 0, 0.286)" }}
         >
-          <div className="modal-content bg-white p-8 rounded-lg shadow-lg flex flex-col w-[40%] text-center">
+          <div className="modal-content bg-white p-8 rounded-lg shadow-lg flex flex-col w-[40%] text-center    ">
+            {/* <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div> */}
             <span
               className="close absolute top-[150px] right-[25%] p-4 cursor-pointer z-111 bg-white rounded-lg "
               onClick={handleCloseModal}
@@ -84,17 +93,46 @@ const DocListAdmin = () => {
               <IoMdClose />
             </span>
             <h2 className="text-2xl font-bold mb-4">Modal Title</h2>
-            <input type="text" placeholder="name" className="input" />
-            <input type="email" placeholder="email" className="input" />
-            <input type="number" placeholder="Mob Number" className="input" />
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="name"
+              className="input mb-4 outline-none border py-2 m-[2px] text-center"
+            />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="email"
+              className="input mb-4 outline-none border py-2 m-[2px] text-center"
+            />
+            <input
+              type="number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Mob Number"
+              className="input mb-4 outline-none border py-2 m-[2px] text-center"
+            />
             {/* extra detail */}
-            <input type="number" placeholder="Price" className="input" />
-            <input type="text" placeholder="Specialization" className="input" />
+            <input
+              type="number"
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Price"
+              className="input mb-4 outline-none border py-2 m-[2px] text-center"
+            />
+            <input
+              type="text"
+              onChange={(e) => setSpecialization(e.target.value)}
+              placeholder="Specialization"
+              className="input mb-4 outline-none border py-2 m-[2px] text-center"
+            />
             {/* <div className="flex"> */}
             <input
               type="file"
               accept="image/*"
               name="image"
+              onChange={(e) => setImage(e.target.files[0])}
               placeholder="Image"
               className="input mb-4 outline-none border py-2 m-[2px] text-center"
             />
@@ -102,6 +140,7 @@ const DocListAdmin = () => {
             {/* </div> */}
             <textarea
               type="text"
+              onChange={(e) => setAbout(e.target.value)}
               placeholder="About"
               className="input mb-4 outline-none border py-2 m-[2px] text-center"
             />
@@ -117,6 +156,16 @@ const DocListAdmin = () => {
         </div>
       )}
       <div className="content">
+        {/* <header className="headerD">
+          <p>
+            <label for="menu">
+              <span className="fa fa-bars">
+                <GiHamburgerMenu />
+              </span>
+            </label>
+            <span className="accueil"></span>
+          </p>
+        </header> */}
 
         <main>
           <div className="">

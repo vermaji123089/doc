@@ -1,43 +1,44 @@
-const express = require("express")
-const mongoose = require("mongoose")
-const cookieParser = require("cookie-parser")
-const cors = require("cors")
-const dotenv = require("dotenv")
-const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
-const body_parser = require("body-parser")
-const UserSchema = require('./models/UserSchema')
-const DoctorSchema = require('./models/DoctorSchema')
-const UserSession = require("./models/UserSession")
-dotenv.config()
+const express = require("express");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const body_parser = require("body-parser");
+const UserSchema = require("./models/UserSchema");
+const DoctorSchema = require("./models/DoctorSchema");
+const UserSession = require("./models/UserSession");
+const path = require("path");
+const multer = require("multer");
+
+dotenv.config();
 
 const app = express();
 
-app.use(express.json())
-app.use(cors({
-    origin:["http://localhost:5173"],
-    methods:['GET','POST'],
-    credentials:true
-}))
-app.use(cookieParser())  
-app.use(body_parser.urlencoded({extended:false}))
+app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
+app.use(cookieParser());
+app.use(body_parser.urlencoded({ extended: false }));
 
+//
 
-// 
+//
 
-
-// 
-
-
-mongoose.connect('mongodb://localhost:27017')
-.then(()=>console.log("server is connected"))
-.catch(error=>console.log("noot connected to the db"))
-
-
+mongoose
+  .connect("mongodb://localhost:27017")
+  .then(() => console.log("server is connected"))
+  .catch((_error) => console.log("noot connected to the db"));
 
 // app.post('/api/newuser', async (req,res)=>{
 //    try {
-    
+
 //     const user = await UserSchema.create(req.body)
 //     res.status(200).json({
 //         success:true,
@@ -49,12 +50,11 @@ mongoose.connect('mongodb://localhost:27017')
 //    }
 // })
 
-
-// login 
+// login
 // app.post("/api/login", async (req,res)=>{
 
 //     const {email,password} = req.body
-   
+
 //         UserSchema.findOne({email:email}).then(
 //             user=>{
 //                 if(user.password == password){
@@ -68,54 +68,50 @@ mongoose.connect('mongodb://localhost:27017')
 //             }
 //         )
 
-   
-
 // })
 
-app.post('/api/newuser',  (req,res)=>{
-    const {email,password,name,number} = req.body;
-    bcrypt.hash(password,10).then(hash =>{
-        UserSchema.create({name,email,number,password:hash})
-        .then(user =>   res.json("success"))
-        .catch(err=> res.json(err))
-    }).catch(err=> res.json(err))
+app.post("/api/newuser", (req, res) => {
+  const { email, password, name, number } = req.body;
+  bcrypt
+    .hash(password, 10)
+    .then((hash) => {
+      UserSchema.create({ name, email, number, password: hash })
+        .then((_user) => res.json("success"))
+        .catch((err) => res.json(err));
+    })
+    .catch((err) => res.json(err));
+});
 
-    
- })
- 
- app.post("/api/login",  (req,res)=>{
-    const {email,password} = req.body;
-    UserSchema.findOne({email:email}).then(
-        user=>{
-            if(user){
-                bcrypt.compare(password,user.password,(err,response)=>{
-                if(response){
+app.post("/api/login", (req, res) => {
+  const { email, password } = req.body;
+  UserSchema.findOne({ email: email }).then((user) => {
+    if (user) {
+      bcrypt.compare(password, user.password, (_err, response) => {
+        if (response) {
+          const token = jwt.sign({ email: user.email }, "jwt-secret-key", {
+            expiresIn: "1d",
+          });
+          res.cookie("token", token);
+          user.token = token;
+          user.save();
 
-                    const token = jwt.sign({email:user.email},"jwt-secret-key", {expiresIn:'1d'})
-                    res.cookie('token',token)
-                    user.token = token;
-                    user.save();
-
-                    // return res.json({
-                    //     status: "success",
-                    //     role: user.role,
-                    //     token: token
-                    // });
-                    return res.json({
-                        Status: "success",
-                        role:user.role,
-                        token: token
-                    })
-                }else{
-                    return res.json("The Password id incorrect")
-                }
-
-                })
-                      }
+          // return res.json({
+          //     status: "success",
+          //     role: user.role,
+          //     token: token
+          // });
+          return res.json({
+            Status: "success",
+            role: user.role,
+            token: token,
+          });
+        } else {
+          return res.json("The Password id incorrect");
         }
-    )
-
- })
+      });
+    }
+  });
+});
 
 // app.post("/api/getUser", (req,res)=>{
 //     const {token} = req.body;
@@ -127,107 +123,161 @@ app.post('/api/newuser',  (req,res)=>{
 //                    user
 
 //                 })
-//             } 
+//             }
 //         }
 //     )
 // })
 
-
 // Endpoint to get user based on token
 app.post("/api/getUser", (req, res) => {
-    const { token } = req.body;
+  const { token } = req.body;
 
-    // Verify and decode the token
-    jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ error: 'Invalid token' });
+  // Verify and decode the token
+  jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    // Extract user email from decoded token
+    const userEmail = decoded.email;
+
+    // Find user in the database based on the email
+    UserSchema.findOne({ email: userEmail })
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({ error: "User not found" });
         }
-
-        // Extract user email from decoded token
-        const userEmail = decoded.email;
-
-        // Find user in the database based on the email
-        UserSchema.findOne({ email: userEmail }).then(user => {
-            if (!user) {
-                return res.status(404).json({ error: 'User not found' });
-            }
-            return res.json({
-                Status: "success",
-                user
-            });
-        }).catch(error => {
-            console.error(error);
-            return res.status(500).json({ error: 'Internal server error' });
+        return res.json({
+          Status: "success",
+          user,
         });
-    });
+      })
+      .catch((error) => {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error" });
+      });
+  });
 });
-// remove the token frome the db 
-
-
+// remove the token frome the db
 
 app.post("/api/removeToken", (req, res) => {
-    const { token } = req.body;
+  const { token } = req.body;
 
-    // Verify and decode the token
-    jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ error: 'Invalid token' });
+  // Verify and decode the token
+  jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    // Extract user email from decoded token
+    const userEmail = decoded.email;
+
+    // Find user in the database based on the email
+    UserSchema.findOne({ email: userEmail })
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({ error: "User not found" });
         }
 
-        // Extract user email from decoded token
-        const userEmail = decoded.email;
+        // Remove the token from the user document
+        user.token = ""; // or you can use user.token = null;
+        user.save(); // Save the updated user document
 
-        // Find user in the database based on the email
-        UserSchema.findOne({ email: userEmail }).then(user => {
-            if (!user) {
-                return res.status(404).json({ error: 'User not found' });
-            }
-
-            // Remove the token from the user document
-            user.token = ""; // or you can use user.token = null;
-            user.save(); // Save the updated user document
-
-            return res.json({ status: "success", message: "Token removed successfully" });
-        }).catch(error => {
-            console.error(error);
-            return res.status(500).json({ error: 'Internal server error' });
+        return res.json({
+          status: "success",
+          message: "Token removed successfully",
         });
-    });
+      })
+      .catch((error) => {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error" });
+      });
+  });
 });
 
 // admin panel api
 
-app.get("/api/getAlluser", (req,res)=>{
-    let users = UserSchema.find()
-    .then(result=>res.json(result))
-    .catch(err=>err)
-})
+app.get("/api/getAlluser", (_req, res) => {
+  let users = UserSchema.find()
+    .then((result) => res.json(result))
+    .catch((err) => err);
+});
 
 // add docter in docter schema
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    cb(null, "public/img"); // Specify the directory where uploaded images will be stored
+  },
+  filename: (_req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    ); // Generate unique filename for the uploaded image
+  },
+});
 
-app.post("/api/add/docter",(req,res)=>{
-    const {email,name,phone,ticketPrice,specialization,experiences,bio,about,averageRating} = req.body;
-    DoctorSchema.create({email,name,phone,ticketPrice,specialization,experiences,bio,about,averageRating}).then(docter => res.json({
+const upload = multer({ storage: storage });
+
+//   app.post("/upload",upload.single('file'),(req,res)=>{
+//     console.log(req.file);
+//     DoctorSchema.create({image: req.file.fieldname})
+//     .then(result=>res.json({result}))
+//     .catch(err=>err)
+//   })
+
+app.post("/api/add/doctor", upload.single("file"), (req, res) => {
+  const {
+    email,
+    name,
+    phone,
+    price,
+    specialization,
+    about,
+    // experiences,
+    // bio,
+    // averageRating,
+  } = req.body;
+  const imagePath = req.file?.filename; // Retrieve the path of the uploaded image
+
+  DoctorSchema.create({
+    email,
+    name,
+    phone,
+    price,
+    specialization,
+    about,
+    // experiences,
+    // bio,
+    // averageRating,
+    // image: req.file.fieldname
+    image: imagePath, // Store the image path in the 'image' field of the doctor schema
+  })
+    .then((docter) =>
+      res.json({
         Status: "success",
-        docter
-    })).catch(err=> res.json(err))
+        docter,
+      })
+    )
+    .catch((err) => res.json(err));
+});
 
+//
 
-})
+app.get("/api/get/allDocters", (_req, res) => {
+  let docters = DoctorSchema.find()
+    .then((result) => res.json(result))
+    .catch((err) => err);
+});
 
 // make appountment |======>
 // panding
-app.post("api/make/appointment", (req,res)=>{
-    const {email,name,dr_name} = req.body;
+app.post("api/make/appointment", (req, _res) => {
+  const { email, name, dr_name } = req.body;
+});
 
-})
-
-app.listen(3001 ,()=>{
- 
-    console.log("server is running http://localhost:3001/"); 
-    
-})
-
+app.listen(3001, () => {
+  console.log("server is running http://localhost:3001/");
+});
 
 // for online
 // mongoose.set('strictQuery', false)
@@ -239,9 +289,8 @@ app.listen(3001 ,()=>{
 //             useUnifiedTopology:true
 //         })
 //         console.log("DB is connected");
-        
+
 //     } catch (error) {
-//        console.log("DB connection is failed"); 
+//        console.log("DB connection is failed");
 //     }
 // }
-

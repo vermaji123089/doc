@@ -1,12 +1,13 @@
 const mongoose = require("mongoose")
+const multer = require('multer');
 
 const DoctorSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   // password: { type: String, required: true },
   name: { type: String, required: true },
-  phone: { type: Number },
-  ticketPrice: { type: Number },
-
+  phone: { type: Number }, 
+  price: { type: Number },
+  image: { type: String }, // Store image URL
   // Fields for doctors only
   specialization: { type: String },
   // qualifications: {

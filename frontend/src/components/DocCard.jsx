@@ -4,7 +4,7 @@ import { BsArrowRight } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 const DocCard = ({docter}) => {
 
-    const {id,name,specialization,avgRating,totalRating,photo,totalPatients,hospital} = docter
+    const {_id,name,specialization,avgRating,totalRating,photo,totalPatients,hospital} = docter
     const localToken = localStorage.getItem("token");
 
     
@@ -34,7 +34,7 @@ const DocCard = ({docter}) => {
                     <p className='text-[14px] leading-6 font-[400] text-textColor ' >At {hospital}</p>
                 </div>
 
-               {localToken? <Link to={`/docter/${id}`} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E]  flex items-center justify-center group hover:bg-primaryColor hover:border-none ' >
+               {localToken? <Link to={`/docter/${_id}`} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E]  flex items-center justify-center group hover:bg-primaryColor hover:border-none ' >
       <BsArrowRight className='group-hover:text-white w-6 h-5 ' />
       </Link>:
       <Link to={`/login`} className='w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E]  flex items-center justify-center group hover:bg-primaryColor hover:border-none ' >

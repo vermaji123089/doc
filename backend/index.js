@@ -15,12 +15,12 @@ const multer = require("multer");
 dotenv.config();
 
 const app = express();
-
+app.use(express.static("public"));
 app.use(express.json());
 app.use(
   cors({
     origin: ["http://localhost:5173"],
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
 );
@@ -233,9 +233,12 @@ app.post("/api/add/doctor", upload.single("file"), (req, res) => {
     price,
     specialization,
     about,
-    // experiences,
-    // bio,
-    // averageRating,
+    experiences,
+    totalRating,
+    totalPatients,
+    qualifications,
+    averageRating,
+    hospital,
   } = req.body;
   const imagePath = req.file?.filename; // Retrieve the path of the uploaded image
 
@@ -246,10 +249,12 @@ app.post("/api/add/doctor", upload.single("file"), (req, res) => {
     price,
     specialization,
     about,
-    // experiences,
-    // bio,
-    // averageRating,
-    // image: req.file.fieldname
+    qualifications,
+    experiences,
+    totalRating,
+    totalPatients,
+    hospital,
+    averageRating,
     image: imagePath, // Store the image path in the 'image' field of the doctor schema
   })
     .then((docter) =>
@@ -269,6 +274,113 @@ app.get("/api/get/allDocters", (_req, res) => {
     .catch((err) => err);
 });
 
+// delete doc
+app.delete("/api/doc/delete/:id", async (req, res) => {
+  try {
+    let deletedoc = await DoctorSchema.findByIdAndDelete(req.params.id);
+
+    if (!deletedoc) {
+      return res.status(404).json({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      deletedoc,
+    });
+  } catch (error) {
+    // Handle any errors that occur during the deletion
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// update doc
+// app.put("/api/update/doctor/:id", upload.single("file"), (req, res) => {
+//   const doctorId = req.params.id;
+//   const {
+//     // email,
+//     // name,
+//     // phone,
+//     // price,
+//     specialization,
+//     // about,
+//     // experiences,
+//     // totalRating,
+//     // totalPatients,
+//     // qualifications,
+//     // averageRating,
+//     // hospital,
+//   } = req.body;
+//   const imagePath = req.file?.filename; // Retrieve the path of the uploaded image
+
+//   // Construct the updated doctor object
+//   const updatedDoctor = {
+//     // email,
+//     // name,
+//     // phone,
+//     // price,
+//     specialization,
+//     // about,
+//     // qualifications,
+//     // experiences,
+//     // totalRating,
+//     // totalPatients,
+//     // hospital,
+//     // averageRating,
+//   };
+
+//   // If a new image is uploaded, update the image path in the doctor object
+//   if (imagePath) {
+//     updatedDoctor.image = imagePath;
+//   }
+
+//   // Find the doctor by ID and update its information
+//   DoctorSchema.findByIdAndUpdate(doctorId, updatedDoctor, { new: true })
+//     .then((updatedDoctor) => {
+//       if (!updatedDoctor) {
+//         return res.status(404).json({
+//           success: false,
+//           message: "Doctor not found",
+//         });
+//       }
+//       res.status(200).json({
+//         success: true,
+//         updatedDoctor,
+//       });
+//     })
+//     .catch((err) => res.status(500).json({ success: false, error: err.message }));
+// });
+
+app.put("/api/update/doctor/:id", upload.single("file"), async (req, res) => {
+  try {
+    console.log(req.body, req.file);
+    let updateDoc = await DoctorSchema.findById(req.params.id);
+    const image = req.file?.filename;
+    // Update other fields
+    updateDoc = await DoctorSchema.findByIdAndUpdate(
+      req.params.id,
+      { image, ...req.body },
+      {
+        new: true,
+        useFindAndModify: false,
+        runValidators: true,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      updateDoc,
+    });
+  } catch (error) {
+    console.error("Error updating doctor:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 // make appountment |======>
 // panding
 app.post("api/make/appointment", (req, _res) => {

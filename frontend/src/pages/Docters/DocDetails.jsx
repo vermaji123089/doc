@@ -57,14 +57,14 @@ const ProductDetails = () => {
                 <div className='text-[34px] font-semibold mb-2'>{doctor.name}</div>
                 <div className='text-lg font-semibold mb-5'>Specialization : {doctor.specialization}</div>
                 <div className='text-lg font-semibold'>Rating : {doctor.totalRating}</div>
-                <div className='text-md font-medium text-black/[0.5]'>AvgRating: {doctor.avgRating}</div>
+                <div className='text-md font-medium text-black/[0.5]'>AvgRating: {doctor.averageRating}</div>
                 <div className='text-md font-medium text-black/[0.5] mb-20'>
                   (Also include all application detail)
                 </div>
                 <div className='mb-10'>
                   <div className='flex justify-between mb-2'>
                     <div className='text-md font-semibold'>Total Patients: {doctor.totalPatients}</div>
-                    <div className='text-md font-medium text-black/[0.5] cursor-pointer'>Select Guid</div>
+                    <div className='text-md font-medium text-black/[0.5] cursor-pointer'>Timing: 9:00 AM to 5:00 PM</div>
                   </div>
                   <div className='text-red-600 mt-1'>Hospital Name: {doctor.hospital}</div>
                 </div>

@@ -10,23 +10,28 @@ const DoctorSchema = new mongoose.Schema({
   image: { type: String }, // Store image URL
   // Fields for doctors only
   specialization: { type: String },
-  // qualifications: {
-  //   type: Array,
-  // },
+  qualifications: {
+    type: Array,
+  },
 
   experiences: {
     type: Array,
   },
 
-  bio: { type: String, maxLength: 50 },
+  // bio: { type: String, maxLength: 50 },
   about: { type: String },
-  // timeSlots: { type: Array },
+  timeSlots: { type: Array },
+  hospital: { type: Array },
   reviews: [{ type: mongoose.Types.ObjectId, ref: "Review" }],
   averageRating: {
     type: Number,
     default: 0,
   },
   totalRating: {
+    type: Number,
+    default: 0,
+  },
+  totalPatients: {
     type: Number,
     default: 0,
   },

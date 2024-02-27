@@ -22,28 +22,38 @@ import ProducCard from "../components/ProducCard";
 
 const Home = () => {
   const value = 20;
-  const [userEmail, setUserEmail] = useState("");
-  const [usertoken, setUsertoken] = useState("");
-  const [userName, setUserName] = useState("");
+  // const [userEmail, setUserEmail] = useState("");
+  // const [usertoken, setUsertoken] = useState("");
+  // const [userName, setUserName] = useState("");
+  const user = useSelector((state) => state.auth.user);
+// console.log(user?.token);
   const localToken = localStorage.getItem("token");
-  useEffect(() => {
-    axios
-      .post("http://localhost:3001/api/getUser", { token: localToken })
-      .then((result) => {
-        if (result.data.Status === "success") {
-          setUserEmail(result.data.user.email);
-          setUserName(result.data.user.name);
-          setUsertoken(result.data.user.token);
-          // console.log(result.data.user.email);
-          // console.log(result.data.user.name);
-          // Handle successful response here
-        }
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error:", error);
-      });
-  }, []); // Empty dependency array to run effect only once on component mount
+  // useEffect(() => {
+  //   try {
+  //     axios
+  //     .post("http://localhost:3001/api/getUser", { token: localToken })
+  //     .then((result) => {
+  //       if (result.data.Status === "success") {
+  //         setUserEmail(result.data.user.email);
+  //         setUserName(result.data.user.name);
+  //         setUsertoken(result.data.user.token);
+  //         // console.log(result.data.user.email);
+  //         // console.log(result.data.user.name);
+  //         // Handle successful response here
+  //       }
+  //     })
+  //   } catch (error) {
+  //     toast.error(error.message);
+
+  //       console.error("Error:", error);
+      
+  //   }
+   
+  //     // .catch((error) => {
+  //     //   // Handle errors
+  //     //   console.error("Error:", error);
+  //     // });
+  // }, []); // Empty dependency array to run effect only once on component mount
 
   return (
     <>
@@ -57,7 +67,7 @@ const Home = () => {
                 <div className="lg:w-[570px]  ">
                   {localToken ? (
                     <h1 className="text-[36px] leading-[46px] text-headingColor font-[800] md:text-[60px] md:leading-[70px] ">
-                      We Help Patimes live a healthy, longer life. {userName}
+                      We Help Patimes live a healthy, longer life. {user?.name}
                      
                     </h1>
                   ) : (

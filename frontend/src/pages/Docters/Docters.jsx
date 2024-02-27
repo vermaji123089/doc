@@ -17,9 +17,7 @@ const Docters = () => {
      </p>
    </div>
 
-   <DocList />
-   <DocList />
-   <DocList />
+  
    <DocList />
   
  </div>

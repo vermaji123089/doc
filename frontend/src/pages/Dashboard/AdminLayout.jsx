@@ -8,13 +8,13 @@ import { useSelector } from "react-redux";
 
 const AdminLayout = () => {
   const { user, isLoading } = useSelector((st) => st.auth);
-  console.log(user, isLoading);
+  // console.log(user, isLoading);
   if (isLoading) {
     return <>Loading....</>;
   }
 
-  if (user?.role !== 'admin') {
-    return <Navigate to={"/login"} />;
+  if (!isLoading && user && user.role !== "admin") {
+    return <Navigate to={"/"} />;
   }
 
   return (

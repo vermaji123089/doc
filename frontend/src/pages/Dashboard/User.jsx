@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
-
+import Datatable from "usereactable";
+import Table from './Table';
 const User = () => {
   const user = useSelector((state) => state.admin.users);
 
@@ -21,7 +22,7 @@ const User = () => {
         <main>
           
 
-          <div className="">
+          {/* <div className="">
             <div className="ventes">
               <div className="case">
                 <div className="header-case">
@@ -38,6 +39,7 @@ const User = () => {
                           <td>Name</td>
                           <td>Number</td>
                           <td>Email</td>
+                          <td>Role</td>
                         </tr>
                       </thead>
                       {user && user.map(user => (
@@ -48,6 +50,10 @@ const User = () => {
       <td>
         <span className="status-produit color-one"></span>
         {user.email}
+      </td>
+      <td>
+        <span className="status-produit color-one"></span>
+        {user.role}
       </td>
     </tr>
   </tbody>
@@ -61,8 +67,8 @@ const User = () => {
 
            
             
-          </div>
-
+          </div> */}
+<Table user={user} />
           
         </main>
       </div>

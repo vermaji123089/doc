@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const AdminDashBoard = () => {
   const user = useSelector((state) => state.admin.users);
 
-console.log(user);
+// console.log(user);
 // {user.map(user => (
 //   <div key={user._id}>
 //     <p>Email: {user.email}</p>
@@ -231,7 +231,7 @@ console.log(user);
               <div className="statistique-barre bar6"></div>
               <div className="statistique-barre bar4"></div>
               <div className="statistique-barre bar5"></div>
-              <div class="statistique-barre bar6"></div>
+              <div className="statistique-barre bar6"></div>
             </div>
             <div className="legende">
               <h4>Legende</h4>

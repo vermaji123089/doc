@@ -3,11 +3,13 @@ import logo from "../../assets/images/logo.png";
 import "./dash.css";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const AdminDashBoard = () => {
   const user = useSelector((state) => state.admin.users);
-
-// console.log(user);
+  const docters = useSelector((state) => state.docters.docters);    
+  console.log(user && user.length);
+  // console.log(user);
 // {user.map(user => (
 //   <div key={user._id}>
 //     <p>Email: {user.email}</p>
@@ -38,8 +40,8 @@ const AdminDashBoard = () => {
               {/* {user.map(user=>(
                   <h2 key={user._id} ></h2>
               ))} */}
-             {user && <h2>{user.length}</h2>}
-                <small>Ventes</small>
+            {user ? (user && <h2>{user.length}</h2>) : (<h2>5</h2>)}
+                <small>Users</small>
               </div>
               <div>
                 <span className="fa fa-shopping-cart"></span>
@@ -48,8 +50,9 @@ const AdminDashBoard = () => {
 
             <div className="card-single">
               <div>
-                <h2>+30</h2>
-                <small>Stock</small>
+              {user ? (user && <h2>{docters ? docters.length : 0}</h2>) : (<h2>5</h2>)}
+
+                <small>Docters</small>
               </div>
               <div>
                 <span className="fa fa-newspaper-o"></span>
@@ -80,61 +83,87 @@ const AdminDashBoard = () => {
               <div className="case">
                 <div className="header-case">
                   <h2>Listes produits</h2>
-                  <button className="button">
-                    voir plus<span className="fa fa-arrow-right"></span>
-                  </button>
+                  <Link to="/admin/doclistadmin" className="button">
+                    Go to List<span className="fa fa-arrow-right"></span>
+                  </Link>
                 </div>
                 <div className="body-case">
                   <div className="tableau">
                     <table width="100%">
                       <thead>
                         <tr>
-                          <td>First</td>
-                          <td>Last</td>
-                          <td>Handle</td>
+                          <td>Name</td>
+                          <td>email</td>
+                          <td>Phnne</td>
+                          <td>specialization</td>
+                          <td>Price</td>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>
-                            <span className="status-produit color-one"></span>
-                            @mdo
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
-                          <td>
-                            <span className="status-produit color-two"></span>
-                            @fat
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-three"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-five"></span>
-                            @twitter
-                          </td>
-                        </tr>
+                        {docters ? (
+                        docters &&  docters.map((doc) => (
+                            <tr key={doc._id}>
+                              <td>{doc.name}</td>
+                              <td>{doc.email}</td>
+                              <td>
+                                <span className="status-produit color-one"></span>
+                                {doc.phone}
+                              </td>
+                              <td>{doc.specialization}</td>
+                              <td>{doc.price}</td>
+
+                              {/* <td>
+                                <button
+                                  style={{ color: "red" }}
+                                  onClick={() => handleDelete(doc._id)}
+                                >
+                                  delete
+                                </button>
+                                {"  /"}
+
+                                <button
+                                  style={{ color: "green" }}
+                                  onClick={() => handleOpenModalN(doc._id)}
+                                >
+                                  edit
+                                </button>
+                              </td> */}
+                            </tr>
+                          ))
+                          
+                          ):
+                          (
+                            <div className="body-case">
+                            <div className="tableau">
+                              <table width="100%">
+                                <thead>
+                                  <tr>
+                                    <td>Name</td>
+                                    <td>email</td>
+                                    <td>Phnne</td>
+                                    <td>specialization</td>
+                                    <td>Price</td>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                 
+                                      <tr>
+                                        <td>kon</td>
+                                        <td>kon</td>
+                                        <td>
+                                          <span className="status-produit color-one"></span>
+                                          kon
+                                        </td>
+                                        <td>kon</td>
+                                        <td>kon</td>
+                                      </tr>
+                                  
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          )
+                        }
                       </tbody>
                     </table>
                   </div>

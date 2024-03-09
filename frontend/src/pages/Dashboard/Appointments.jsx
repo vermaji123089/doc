@@ -1,189 +1,54 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import DocRAwtable from './DocRAwtable';
+import Table from './Table';
+import DocAppTable from './DocAppTable';
 
 const Appointments = () => {
+
+  const user = useSelector((state) => state.auth.user);
+  const docters = useSelector((state) => state.docters.docters);    
+
   const navigate = useNavigate()
   useEffect(() => {
     if (user?.role === "admin") {
       console.log("User is an admin");
     } else if (user?.role === "user") {
-      navigate('/');
+      navigate('');
     }else if ( user?.role === "") {
-      navigate('/');
+      navigate('');
     }
   }, [user]);
   return (
     <div>
-         <div className="content">
-        {/* <header className="headerD">
-          <p>
-            <label for="menu">
-              <span className="fa fa-bars">
-                <GiHamburgerMenu />
-              </span>
-            </label>
-            <span className="accueil"></span>
-          </p>
-        </header> */}
+    <div className="content">
+   {/* <header className="headerD">
+     <p>
+       <label for="menu">
+         <span className="fa fa-bars">
+           <GiHamburgerMenu />
+         </span>
+       </label>
+       <span className="accueil"></span>
+     </p>
+   </header> */}
 
-        <main>
-          
+ { docters? (<main>
+     
 
-          <div className="">
-            <div className="ventes">
-              <div className="case">
-                <div className="header-case">
-                  <h2>Blog</h2>
-                  <button className="button">
-                    voir plus<span className="fa fa-arrow-right"></span>
-                  </button>
-                </div>
-                <div className="body-case">
-                  <div className="tableau">
-                    <table width="100%">
-                      <thead>
-                        <tr>
-                          <td>First</td>
-                          <td>Last</td>
-                          <td>Handle</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>
-                            <span className="status-produit color-one"></span>
-                            @mdo
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
-                          <td>
-                            <span className="status-produit color-two"></span>
-                            @fat
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-three"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-four"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Larry the Bird</td>
-                          <td>@twitter</td>
-                          <td>
-                            <span className="status-produit color-five"></span>
-                            @twitter
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
+<DocAppTable docters={docters} /> 
+   </main>)
+  : 
+  (<main>
+     
 
-           
-            
-          </div>
-
-          
-        </main>
-      </div>
-    </div>
+    ss
+       </main>)
+      
+  }
+ </div>
+</div>
   )
 }
 

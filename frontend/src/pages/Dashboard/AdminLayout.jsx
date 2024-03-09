@@ -5,6 +5,8 @@ import Sidebar from "./Sidebar";
 import User from "./User";
 import DocListAdmin from "./DocListAdmin";
 import { useSelector } from "react-redux";
+import Appointments from "./Appointments";
+import DocClinic from "./DocClinic";
 
 const AdminLayout = () => {
   const { user, isLoading } = useSelector((st) => st.auth);
@@ -25,7 +27,8 @@ const AdminLayout = () => {
         <Route path="/blog" element={<Blog />} />
         <Route path="/user" element={<User />} />
         <Route path="/doclistadmin" element={<DocListAdmin />} />
-        {/* <Route path="/appointment" element={<User />} /> */}
+        <Route path="/appointment" element={<Appointments />} />
+        <Route path="/docclinic" element={<DocClinic />} />
       </Routes>
     </>
   );

@@ -50,18 +50,24 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <a href="">
+            <Link to="/admin/appointment">
                 <span className="fa fa-line-chart"></span>
                 <span>Appointments</span>
-              </a>
+              </Link>
             </li>
             <li>
             <Link to="/admin/doclistadmin">
                 <span className="fa fa-address-book"></span>
                 <span>Docter List</span>
               </Link>
+              </li>
+              <li>
+              <Link to="/admin/docclinic">
+                <span className="fa fa-address-book"></span>
+                <span>Docter Clinic</span>
+              </Link>
             </li>
-            <li>
+            {/* <li>
               <a href="">
                 <span className="fa fa-clipboard"></span>
                 <span>Blank</span>
@@ -85,7 +91,7 @@ const Sidebar = () => {
                 <span className="fa fa-user"></span>
                 <span>Contacts</span>
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

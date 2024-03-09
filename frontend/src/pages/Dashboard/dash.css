@@ -160,6 +160,9 @@ main {
 .card-single small {
   color: grey;
 }
+.card-single small:hover {
+  color: #fff;
+}
 .card-single:hover {
   background: #008ea1;
   color: #fff;
@@ -183,7 +186,7 @@ main {
   justify-content: space-between;
   align-items: center;
 }
-.header-case button {
+.header-case .button {
   background: #008ea1;
   border-radius: 10px;
   color: #fff;
@@ -192,6 +195,7 @@ main {
   border: none;
   cursor: pointer;
 }
+
 .btn {
   background: #008ea1;
   border-radius: 10px;

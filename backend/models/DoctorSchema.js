@@ -40,7 +40,18 @@ const DoctorSchema = new mongoose.Schema({
     enum: ["pending", "approved", "cancelled"],
     default: "pending",
   },
-  // appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
-});
+  appointments: [
+    {
+      user: {
+        email: { type: String, required: true },
+        name: { type: String, required: true },
+        number: { type: String, required: true },
+      },
+      appointmentDetails: { type: String }, // Add any additional details you need for appointments
+    },
+  ],
+
+}
+);
 
 module.exports= mongoose.model("Doctor", DoctorSchema);

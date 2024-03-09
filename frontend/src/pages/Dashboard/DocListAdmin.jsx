@@ -72,7 +72,7 @@ const DocListAdmin = () => {
       toast.success("Doctor updated successfully");
       setShowModalN(false);
       setTimeout(() => {
-        // window.location.reload(); // Refresh the page or update the doctor list in place
+        window.location.reload(); // Refresh the page or update the doctor list in place
       }, 2500);
       // Optionally, refresh the page or update the doctor list in place
     } catch (error) {

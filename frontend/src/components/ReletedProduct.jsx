@@ -3,6 +3,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ProducCard from './ProducCard';
 import {doctors} from '../assets/data/doctors'
+import { useSelector } from 'react-redux';
 const ReletedProduct = () => {
  const responsive = {
 
@@ -21,7 +22,9 @@ const ReletedProduct = () => {
         items : 1,
     },
  }
-
+ const docters = useSelector((state) => state.docters.docters);    
+// console.log(docters)
+// console.log(doctors)
   return (
     <div className=' mt-[50px] md:mt-[100px] mb-[100px] md:mb-0 ' >
         <div className='text-2xl font-bold mb-5  '  >
@@ -31,8 +34,11 @@ You Might also Like
         containerClass='-mx-[10px]'
         itemClass='px-[10px]'
         >
-{ doctors.map((docter)=><ProducCard docter={docter} key={docter.id } />) }
-{/*   {doctors.map((docter)=> <DocCard docter={docter} key={docter.id } />)} */}
+{
+docters ?
+docters.map((docter)=><ProducCard docter={docter} key={docter._id } />)  :
+doctors.map((docter)=><ProducCard docter={docter} key={docter._id } />) }
+  {/* {docters.map((docter)=> <DocCard docter={docter} key={docter._id } />)} */}
 </Carousel>
     </div>
   )

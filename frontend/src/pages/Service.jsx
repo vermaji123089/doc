@@ -38,11 +38,11 @@ const Service = () => {
 
   return (
     <div>
-      <p>Email: {user?.email}</p> 
+      {/* <p>Email: {user?.email}</p> 
       <p>Name: {user?.name}</p>
       <p>Name: {user?.role}</p>
       <p>Name: {user?.role}</p>
-      Service
+      Service */}
 
 <br />
       <div className="grid gap-6">

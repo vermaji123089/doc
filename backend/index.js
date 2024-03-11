@@ -34,7 +34,7 @@ app.use(body_parser.urlencoded({ extended: false }));
 mongoose
   .connect("mongodb://localhost:27017")
   .then(() => console.log("server is connected"))
-  .catch((_error) => console.log("noot connected to the db"));
+  .catch((_error) => console.log("not connected to the db"));
 
 // app.post('/api/newuser', async (req,res)=>{
 //    try {

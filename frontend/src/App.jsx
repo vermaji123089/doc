@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import Layout from "./layouts/layout";
+import Layout from "./layouts/Layout";
 import { fetchAdmin } from "./redux/features/adminSlice";
 import { fetchUser } from "./redux/features/authSlice";
 import { fatchDocter } from "./redux/features/docterSlice";

@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Blog from "./Blog";
 import AdminDashBoard from "./Dashboard";
-import Sidebar from "./Sidebar";
+import Sidebar from "./SideBar";
 import User from "./User";
 import DocListAdmin from "./DocListAdmin";
 import { useSelector } from "react-redux";

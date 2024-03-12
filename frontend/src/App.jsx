@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./app.css";
+import "./App.css";
 import Layout from "./layouts/layout";
 import { fetchAdmin } from "./redux/features/adminSlice";
 import { fetchUser } from "./redux/features/authSlice";

@@ -32,7 +32,7 @@ app.use(body_parser.urlencoded({ extended: false }));
 //
 
 mongoose
-  .connect("mongodb://localhost:27017")
+  .connect(process.env.MONGO_URL)
   .then(() => console.log("server is connected"))
   .catch((_error) => console.log("not connected to the db"));
 
@@ -387,86 +387,96 @@ app.put("/api/update/doctor/:id", upload.single("file"), async (req, res) => {
 
 app.put("/api/doctor/appointments/:id", async (req, res) => {
   try {
-    // console.log(name) 
+    // console.log(name)
     const { email, name, number } = req.body;
     const doctorId = req.params.id;
 
     // Find the doctor by ID
     const doctor = await DoctorSchema.findById(doctorId);
     if (!doctor) {
-      return res.status(404).json({ success: false, message: "Doctor not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Doctor not found" });
     }
 
     // Add appointment details to the doctor's appointments array
- 
+
     // updateDoc = await DoctorSchema.findByIdAndUpdate(req.params.id)
     doctor.appointments.push({
       user: { email, name, number },
-      
     });
 
     // Save the updated doctor document
     await doctor.save();
 
-    res.status(200).json({ success: true, message: "Appointment added successfully"});
+    res
+      .status(200)
+      .json({ success: true, message: "Appointment added successfully" });
   } catch (error) {
     console.error("Error adding appointment:", error);
     res.status(500).json({ success: false, error: error.message });
   }
-}); 
+});
 
-// appointment delete api 
+// appointment delete api
 
-app.delete('/api/delete/appointment/:appointmentId', async (req, res) => {
+app.delete("/api/delete/appointment/:appointmentId", async (req, res) => {
   const appointmentId = req.params.appointmentId;
 
   try {
     // Find the doctor by appointment ID
-    const doctor = await DoctorSchema.findOne({ 'appointments._id': appointmentId });
+    const doctor = await DoctorSchema.findOne({
+      "appointments._id": appointmentId,
+    });
 
     if (!doctor) {
-      return res.status(404).json({ success: false, message: 'Doctor not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: "Doctor not found" });
     }
 
     // Remove the appointment from the doctor's appointments array
-    doctor.appointments = doctor.appointments.filter(appointment => appointment._id.toString() !== appointmentId);
-    
+    doctor.appointments = doctor.appointments.filter(
+      (appointment) => appointment._id.toString() !== appointmentId
+    );
+
     // Save the updated doctor document
     await doctor.save();
 
-    return res.status(200).json({ success: true, message: 'Appointment deleted successfully' });
+    return res
+      .status(200)
+      .json({ success: true, message: "Appointment deleted successfully" });
   } catch (error) {
-    console.error('Error deleting appointment:', error);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    console.error("Error deleting appointment:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 });
 // get all appointsment
-app.get("/api/get/appointments/:id", async (req,res)=>{
- 
+app.get("/api/get/appointments/:id", async (req, res) => {
   try {
     const docId = req.params.id;
     const doctor = await DoctorSchema.findById(docId);
-    if(!doctor){
-      return res.status(404).json({ success: false, message: "Doctor not found" });
-      
+    if (!doctor) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Doctor not found" });
     }
     const doctorAppointments = doctor.appointments;
 
     res.status(201).json({
-      success:true,
-      appointments: doctorAppointments
-    })
+      success: true,
+      appointments: doctorAppointments,
+    });
   } catch (error) {
-    error
+    error;
   }
-
-
-
-})
+});
 
 app.listen(3001, () => {
   console.log("server is running http://localhost:3001/");
-}); 
+});
 
 // for online
 // mongoose.set('strictQuery', false)

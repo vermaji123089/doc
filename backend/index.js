@@ -14,6 +14,8 @@ const multer = require("multer");
 
 dotenv.config();
 
+console.log("work")
+
 const app = express();
 app.use(express.static("public"));
 app.use(express.json());
@@ -474,7 +476,7 @@ app.get("/api/get/appointments/:id", async (req, res) => {
   }
 });
 
-app.listen(3001, () => {
+app.listen(process.env.PORT, () => {
   console.log("server is running http://localhost:3001/");
 });
 

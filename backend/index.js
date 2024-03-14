@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -10,53 +9,26 @@ const DoctorSchema = require("./models/DoctorSchema");
 const path = require("path");
 const multer = require("multer");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 dotenv.config();
 
 const app = express();
-app.use(cors());
-app.use(express.static("public"));
+app.use(
+  cors({
+    origin: ["http://localhost:5174", "https://doctor-app-s401.onrender.com"],
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static("public"));
 
 mongoose
   .connect(process.env.MONGO_URL)
-  .then(() => console.log("server is connected"))
+  .then(() => console.log("Database is connected sucessfylly !!"))
   .catch((_error) => console.log("not connected to the db"));
-
-// app.post('/api/newuser', async (req,res)=>{
-//    try {
-
-//     const user = await UserSchema.create(req.body)
-//     res.status(200).json({
-//         success:true,
-//         user,
-//         message:'user is created'
-//     })
-//    } catch (error) {
-//     console.log(error);
-//    }
-// })
-
-// login
-// app.post("/api/login", async (req,res)=>{
-
-//     const {email,password} = req.body
-
-//         UserSchema.findOne({email:email}).then(
-//             user=>{
-//                 if(user.password == password){
-//                     res.json({
-//                         success:true,
-//                         user
-//                     })
-//                 }else{
-//                     res.json("invallid pass word")
-//                 }
-//             }
-//         )
-
-// })
 
 app.post("/api/newuser", (req, res) => {
   const { email, password, name, number } = req.body;
@@ -82,12 +54,6 @@ app.post("/api/login", (req, res) => {
           res.cookie("token", token);
           user.token = token;
           user.save();
-
-          // return res.json({
-          //     status: "success",
-          //     role: user.role,
-          //     token: token
-          // });
           return res.json({
             Status: "success",
             role: user.role,
@@ -97,26 +63,12 @@ app.post("/api/login", (req, res) => {
           return res.json("The Password id incorrect");
         }
       });
+    } else {
+      res.status(401).send({ message: "User not found" });
     }
   });
 });
 
-// app.post("/api/getUser", (req,res)=>{
-//     const {token} = req.body;
-//     UserSchema.findOne({token:token}).then(
-//         user=>{
-//             if(token === user.token){
-//                 return res.json({
-//                     Status: "success",
-//                    user
-
-//                 })
-//             }
-//         }
-//     )
-// })
-
-// Endpoint to get user based on token
 app.post("/api/getUser", (req, res) => {
   const { token } = req.body;
 
@@ -206,45 +158,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-//   app.post("/upload",upload.single('file'),(req,res)=>{
-//     console.log(req.file);
-//     DoctorSchema.create({image: req.file.fieldname})
-//     .then(result=>res.json({result}))
-//     .catch(err=>err)
-//   })
-
 app.post("/api/add/doctor", upload.single("file"), (req, res) => {
-  const {
-    email,
-    name,
-    phone,
-    price,
-    specialization,
-    about,
-    experiences,
-    totalRating,
-    totalPatients,
-    qualifications,
-    averageRating,
-    hospital,
-  } = req.body;
   const imagePath = req.file?.filename; // Retrieve the path of the uploaded image
-
-  DoctorSchema.create({
-    email,
-    name,
-    phone,
-    price,
-    specialization,
-    about,
-    qualifications,
-    experiences,
-    totalRating,
-    totalPatients,
-    hospital,
-    averageRating,
-    image: imagePath, // Store the image path in the 'image' field of the doctor schema
-  })
+  DoctorSchema.create({ image: imagePath, ...req.body })
     .then((docter) =>
       res.json({
         Status: "success",
@@ -254,15 +170,11 @@ app.post("/api/add/doctor", upload.single("file"), (req, res) => {
     .catch((err) => res.json(err));
 });
 
-//
-
-app.get("/api/get/allDocters", (_req, res) => {
-  let docters = DoctorSchema.find()
-    .then((result) => res.json(result))
-    .catch((err) => err);
+app.get("/api/get/allDocters", async (_req, res) => {
+  const doctors = await DoctorSchema.find();
+  res.json(doctors);
 });
 
-// delete doc
 app.delete("/api/doc/delete/:id", async (req, res) => {
   try {
     let deletedoc = await DoctorSchema.findByIdAndDelete(req.params.id);
@@ -286,63 +198,6 @@ app.delete("/api/doc/delete/:id", async (req, res) => {
     });
   }
 });
-
-// update doc
-// app.put("/api/update/doctor/:id", upload.single("file"), (req, res) => {
-//   const doctorId = req.params.id;
-//   const {
-//     // email,
-//     // name,
-//     // phone,
-//     // price,
-//     specialization,
-//     // about,
-//     // experiences,
-//     // totalRating,
-//     // totalPatients,
-//     // qualifications,
-//     // averageRating,
-//     // hospital,
-//   } = req.body;
-//   const imagePath = req.file?.filename; // Retrieve the path of the uploaded image
-
-//   // Construct the updated doctor object
-//   const updatedDoctor = {
-//     // email,
-//     // name,
-//     // phone,
-//     // price,
-//     specialization,
-//     // about,
-//     // qualifications,
-//     // experiences,
-//     // totalRating,
-//     // totalPatients,
-//     // hospital,
-//     // averageRating,
-//   };
-
-//   // If a new image is uploaded, update the image path in the doctor object
-//   if (imagePath) {
-//     updatedDoctor.image = imagePath;
-//   }
-
-//   // Find the doctor by ID and update its information
-//   DoctorSchema.findByIdAndUpdate(doctorId, updatedDoctor, { new: true })
-//     .then((updatedDoctor) => {
-//       if (!updatedDoctor) {
-//         return res.status(404).json({
-//           success: false,
-//           message: "Doctor not found",
-//         });
-//       }
-//       res.status(200).json({
-//         success: true,
-//         updatedDoctor,
-//       });
-//     })
-//     .catch((err) => res.status(500).json({ success: false, error: err.message }));
-// });
 
 app.put("/api/update/doctor/:id", upload.single("file"), async (req, res) => {
   try {
@@ -369,6 +224,7 @@ app.put("/api/update/doctor/:id", upload.single("file"), async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
 // make appountment |======>
 // panding
 // Assuming you have already set up your Express router and Doctor model
@@ -463,21 +319,5 @@ app.get("/api/get/appointments/:id", async (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log("server is running https://doctor-app-s401.onrender.com/");
+  console.log(`server is running http://localhost:${process.env.port}/`);
 });
-
-// for online
-// mongoose.set('strictQuery', false)
-// const connectDb = async ()=>{
-
-//     try {
-//       await  mongoose.connect(process.env.MONGO_URL,{
-//             useNewUrlParser:true,
-//             useUnifiedTopology:true
-//         })
-//         console.log("DB is connected");
-
-//     } catch (error) {
-//        console.log("DB connection is failed");
-//     }
-// }

@@ -5,10 +5,8 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const body_parser = require("body-parser");
 const UserSchema = require("./models/UserSchema");
 const DoctorSchema = require("./models/DoctorSchema");
-const UserSession = require("./models/UserSession");
 const path = require("path");
 const multer = require("multer");
 
@@ -18,11 +16,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-app.use(body_parser.urlencoded({ extended: false }));
-
-//
-
-//
+app.use(express.urlencoded({ extended: false }));
 
 mongoose
   .connect(process.env.MONGO_URL)

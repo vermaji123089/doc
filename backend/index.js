@@ -9,14 +9,15 @@ const UserSchema = require("./models/UserSchema");
 const DoctorSchema = require("./models/DoctorSchema");
 const path = require("path");
 const multer = require("multer");
-
+const bodyParser = require("body-parser");
 dotenv.config();
+
 const app = express();
-app.use(express.static("public"));
-app.use(express.json());
 app.use(cors());
+app.use(express.static("public"));
+app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 mongoose
   .connect(process.env.MONGO_URL)

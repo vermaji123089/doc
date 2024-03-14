@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:5174", "https://doctor-app-s401.onrender.com"],
+    origin: ["http://localhost:5174", "https://doc-y3r4.onrender.com/"],
     methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })

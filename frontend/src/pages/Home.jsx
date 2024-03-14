@@ -26,12 +26,12 @@ const Home = () => {
   // const [usertoken, setUsertoken] = useState("");
   // const [userName, setUserName] = useState("");
   const user = useSelector((state) => state.auth.user);
-// console.log(user?.token);
+  // console.log(user?.token);
   const localToken = localStorage.getItem("token");
   // useEffect(() => {
   //   try {
   //     axios
-  //     .post("http://localhost:3001/api/getUser", { token: localToken })
+  //     .post("https://doctor-app-s401.onrender.com/api/getUser", { token: localToken })
   //     .then((result) => {
   //       if (result.data.Status === "success") {
   //         setUserEmail(result.data.user.email);
@@ -46,9 +46,9 @@ const Home = () => {
   //     toast.error(error.message);
 
   //       console.error("Error:", error);
-      
+
   //   }
-   
+
   //     // .catch((error) => {
   //     //   // Handle errors
   //     //   console.error("Error:", error);
@@ -68,7 +68,6 @@ const Home = () => {
                   {localToken ? (
                     <h1 className="text-[36px] leading-[46px] text-headingColor font-[800] md:text-[60px] md:leading-[70px] ">
                       We Help Patimes live a healthy, longer life. {user?.name}
-                     
                     </h1>
                   ) : (
                     <h1 className="text-[36px] leading-[46px] text-headingColor font-[800] md:text-[60px] md:leading-[70px] ">
@@ -295,7 +294,6 @@ const Home = () => {
             </div>
 
             <DocList />
-           
           </div>
         </section>
 

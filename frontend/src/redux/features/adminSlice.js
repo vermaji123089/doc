@@ -6,7 +6,9 @@ export const fetchAdmin = createAsyncThunk(
   "auth/admin",
   async (payload, thunkApi) => {
     try {
-      const response = await axios.get("http://localhost:3001/api/getAlluser");
+      const response = await axios.get(
+        "https://doctor-app-s401.onrender.com/api/getAlluser"
+      );
       return response.data; // Assuming the response contains the user data
     } catch (error) {
       console.error("Error:", error);

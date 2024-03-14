@@ -13,19 +13,10 @@ const path = require("path");
 const multer = require("multer");
 
 dotenv.config();
-
-console.log("work")
-
 const app = express();
 app.use(express.static("public"));
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-    methods: ["GET", "POST", "DELETE", "PUT"],
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(cookieParser());
 app.use(body_parser.urlencoded({ extended: false }));
 
@@ -477,7 +468,7 @@ app.get("/api/get/appointments/:id", async (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log("server is running http://localhost:3001/");
+  console.log("server is running https://doctor-app-s401.onrender.com/");
 });
 
 // for online

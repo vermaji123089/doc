@@ -17,7 +17,9 @@ const DocClinic = () => {
   
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/api/doc/delete/${id}`);
+      await axios.delete(
+        `https://doctor-app-s401.onrender.com/api/doc/delete/${id}`
+      );
       toast.success("Doctor Upadted Sucessfully");
       setTimeout(() => {
         window.location.reload("");
@@ -33,7 +35,7 @@ const DocClinic = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:3001/api/update/doctor/${udateID}`,
+        `https://doctor-app-s401.onrender.com/api/update/doctor/${udateID}`,
         formData
       );
       toast.success("Doctor updated successfully");

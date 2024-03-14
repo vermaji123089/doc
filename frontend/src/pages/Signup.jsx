@@ -11,12 +11,18 @@ const Signup = () => {
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/api/newuser",{name, email,password,number})
-    .then(result=>{
-      navigate("/login")
-      console.log(result);
-    })
-    .catch(err=>console.log(err));
+    axios
+      .post("https://doctor-app-s401.onrender.com/api/newuser", {
+        name,
+        email,
+        password,
+        number,
+      })
+      .then((result) => {
+        navigate("/login");
+        console.log(result);
+      })
+      .catch((err) => console.log(err));
     // Add your form submission logic here
   };
 

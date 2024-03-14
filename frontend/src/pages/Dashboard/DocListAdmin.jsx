@@ -33,7 +33,7 @@ const DocListAdmin = () => {
     const formData = new FormData(e.target);
     try {
       const res = await axios.post(
-        "http://localhost:3001/api/add/doctor",
+        "https://doctor-app-s401.onrender.com/api/add/doctor",
         formData
       );
       toast.success("Doctor addeded Sucessfully");
@@ -49,8 +49,10 @@ const DocListAdmin = () => {
   };
   const handleDelete = async (id) => {
     try {
-      // console.log(`http://localhost:3001/api/doc/delete/${id}`)
-      await axios.delete(`http://localhost:3001/api/doc/delete/${id}`);
+      // console.log(`https://doctor-app-s401.onrender.com/api/doc/delete/${id}`)
+      await axios.delete(
+        `https://doctor-app-s401.onrender.com/api/doc/delete/${id}`
+      );
       toast.success("Doctor Upadted Sucessfully");
       setTimeout(() => {
         window.location.reload("");
@@ -66,7 +68,7 @@ const DocListAdmin = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:3001/api/update/doctor/${udateID}`,
+        `https://doctor-app-s401.onrender.com/api/update/doctor/${udateID}`,
         formData
       );
       toast.success("Doctor updated successfully");

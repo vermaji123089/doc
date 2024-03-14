@@ -32,31 +32,31 @@ const ProductDetailsCraousle = () => {
 
   // console.log(doctor)
   return (
-    <div className='text-white text-[20px] w-full max-w-[1360] mx-auto sticky top-[50px] ' >
-        <Carousel
+    <div className="text-white text-[20px] w-full max-w-[1360] mx-auto sticky top-[50px] ">
+      <Carousel
         thumbWidth={60}
-        className='productCarousel'
+        className="productCarousel"
         infiniteLoop={false}
         showIndicators={false}
-        showStatus={false}>
-   
-        { doctor ? (
-             <div key={doctor.id} >
-            <img  src={`http://localhost:3001/img/${doctor.image}`} alt="" />
-         </div>)
-           
-           
-          :
-         ( <>
-         <img  src={doctorImg01} alt="" />
+        showStatus={false}
+      >
+        {doctor ? (
+          <div key={doctor.id}>
+            <img
+              src={`https://doctor-app-s401.onrender.com/img/${doctor.image}`}
+              alt=""
+            />
+          </div>
+        ) : (
+          <>
+            <img src={doctorImg01} alt="" />
             <img src={doctorImg02} alt="" />
-            <img src={doctorImg03} alt="" /> 
-          </>)
-            
-            }
-        </Carousel>
+            <img src={doctorImg03} alt="" />
+          </>
+        )}
+      </Carousel>
     </div>
-  )
+  );
 }
 
 export default ProductDetailsCraousle

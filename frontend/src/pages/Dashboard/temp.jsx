@@ -32,7 +32,7 @@ const DocListAdmin = () => {
   //     const formdeta = new FormData()
   //      // Handle submission logic here
   //      formdeta.append("file",image)
-  //   axios.post("http://localhost:3001/upload",formdeta).then(
+  //   axios.post("https://doctor-app-s401.onrender.com/upload",formdeta).then(
   //     result=>{
   //         console.log(result);
   //     }
@@ -61,7 +61,7 @@ const DocListAdmin = () => {
       formData.append("file", image);
 
       const res = await axios.post(
-        "http://localhost:3001/api/add/doctor",
+        "https://doctor-app-s401.onrender.com/api/add/doctor",
         formData
         //   {
         //     headers: {

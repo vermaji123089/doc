@@ -9,28 +9,30 @@ const Login = () => {
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/api/login",{email,password}).then(
-      result=>{
+    axios
+      .post("https://doctor-app-s401.onrender.com/api/login", {
+        email,
+        password,
+      })
+      .then((result) => {
         if (result.data.Status === "success") {
           const role = result.data.role;
           if (role === "admin") {
-              navigate('/admin');
+            navigate("/admin");
           } else if (role === "user") {
-              navigate('/');
+            navigate("/");
 
-              console.log(result);
-              console.log(result.data.token);
-              console.log(result.data.role);
+            console.log(result);
+            console.log(result.data.token);
+            console.log(result.data.role);
           }
           const token = result.data.token;
-                    localStorage.setItem("token", token); // Store the token in local storage
-                    window.location.reload()
-
-      }
+          localStorage.setItem("token", token); // Store the token in local storage
+          window.location.reload();
+        }
         // alert(result.data)
-        
-      }
-    ).catch(error=>console.log(error))
+      })
+      .catch((error) => console.log(error));
     // Add your form submission logic here
   };
 

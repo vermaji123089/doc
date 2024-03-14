@@ -39,7 +39,7 @@ const ProductDetails = () => {
     try {
       axios
         .put(
-          `http://localhost:3001/api/doctor/appointments/${id}`,
+          `https://doctor-app-s401.onrender.com/api/doctor/appointments/${id}`,
           appointmentData
         )
         .then((result) => {
@@ -55,24 +55,25 @@ const ProductDetails = () => {
   useEffect(() => {
     const checkAppint = () => {
       // console.log("id:", id); // Log the id variable
-    
+
       axios
-        .get(`http://localhost:3001/api/get/appointments/${id}`)
+        .get(`https://doctor-app-s401.onrender.com/api/get/appointments/${id}`)
         .then((result) => {
           const appointments = result.data.appointments;
           let appointmentId = null;
-    
+
           appointments.forEach((appointment) => {
             if (appointment.user.email === Pemail) {
               appointmentId = appointment._id;
             }
           });
-          setAppId(appointmentId)
+          setAppId(appointmentId);
           if (appointmentId) {
-
             // console.log(appointmentId)
             setDocApp(false);
-            console.log(`Your email is associated with the appointment ID: ${appointmentId}`);
+            console.log(
+              `Your email is associated with the appointment ID: ${appointmentId}`
+            );
           } else {
             setDocApp(true);
             console.log("Your email is not present in the list of users.");
@@ -80,7 +81,7 @@ const ProductDetails = () => {
         })
         .catch((err) => console.error(err));
     };
-    
+
     if (localToken) {
       // console.log("ok");
       // console.log(localToken)
@@ -99,24 +100,24 @@ const ProductDetails = () => {
     checkAppint();
   }, [id, doctors, docters]);
 
-
   // delete Appoint ment
 
   // console.log(appID)
-const handleCancelAppointment =()=>{
-  try {
-    axios.delete(`http://localhost:3001/api/delete/appointment/${appID}`)
-    .then((result) => {
-      // console.log(result)
-      toast.success("Appointment is Canceled");
-      setTimeout(() => {
-        window.location.href = `http://localhost:5173/docter/${id}`;
-      }, 2000);
-    });
-  } catch (error) {
-    
-  }
- }
+  const handleCancelAppointment = () => {
+    try {
+      axios
+        .delete(
+          `https://doctor-app-s401.onrender.com/api/delete/appointment/${appID}`
+        )
+        .then((result) => {
+          // console.log(result)
+          toast.success("Appointment is Canceled");
+          setTimeout(() => {
+            window.location.href = `http://localhost:5173/docter/${id}`;
+          }, 2000);
+        });
+    } catch (error) {}
+  };
 // 
   return (
     <div className="w-full md:py-20">

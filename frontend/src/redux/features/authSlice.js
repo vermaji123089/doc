@@ -7,9 +7,12 @@ export const fetchUser = createAsyncThunk(
   async (payload, thunkApi) => {
     try {
       const localToken = localStorage.getItem("token");
-      const response = await axios.post("http://localhost:3001/api/getUser", {
-        token: localToken,
-      });
+      const response = await axios.post(
+        "https://doctor-app-s401.onrender.com/api/getUser",
+        {
+          token: localToken,
+        }
+      );
       return response.data; // Assuming the response contains the user data
     } catch (error) {
       console.error("Error:", error);

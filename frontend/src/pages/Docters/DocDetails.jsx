@@ -46,7 +46,8 @@ const ProductDetails = () => {
           // console.log(result)
           toast.success("Appointment is Fixed");
           setTimeout(() => {
-            window.location.href = `http://localhost:5173/docter/${id}`;
+            // window.location.href = `http://localhost:5173/docter/${id}`;
+            window.location.href = `https://doc-y3r4.onrender.com/docter/${id}`;
           }, 2000);
         });
     } catch (error) {}

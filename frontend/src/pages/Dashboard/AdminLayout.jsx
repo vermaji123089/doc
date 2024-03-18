@@ -16,6 +16,7 @@ const AdminLayout = () => {
   }
 
   if (!isLoading && user && user.role !== "admin") {
+    console.log(user.role)
     return <Navigate to={"/"} />;
   }
 

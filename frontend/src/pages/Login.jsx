@@ -17,7 +17,7 @@ const Login = () => {
         if (result.data.Status === "success") {
           const role = result.data.role;
           if (role === "admin") {
-            navigate("https://doc-y3r4.onrender.com/admin");
+            navigate("/admin");
           } else if (role === "user") {
             navigate("/");
             console.log(result);

@@ -80,7 +80,7 @@ const Home = () => {
                     explicabo voluptatum reprehenderit aperiam velit vero. Nulla
                     ullam cupiditate laboriosam vel quam debitis hic?
                   </p>
-                  <button className="btn">Request an Appointment</button>
+                  {localToken ? <button className="btn"><Link to="/docters">Request an Appointment</Link></button>: <button className="btn"><Link to="/login">Request an Appointment</Link></button>}
                 </div>
                 {/* hero counter */}
                 <div className="mt-[30px] lg:mt-[70px] flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-[30px] ">

@@ -13,7 +13,9 @@ const ProducCard = ({docter}) => {
       <img
         className="w-full"
         style={{ height: "59%" }}
-        src={`https://doctor-app-s401.onrender.com/img/${image}`}
+        // src={`https://doctor-app-s401.onrender.com/img/${image}`}
+        src={`https://i.pinimg.com/originals/9d/17/04/9d1704b0f3d9135472efba85d75321be.jpg`}
+
         alt=""
       />
       <div className="p-4 text-black/[0.9]">

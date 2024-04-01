@@ -11,7 +11,7 @@ const ProducCard = ({docter}) => {
       to={`/docter/${_id}`}
     >
       <img
-        className="w-full"
+        className="w-full object-contain"
         style={{ height: "59%" }}
         // src={`https://doctor-app-s401.onrender.com/img/${image}`}
         src={`https://i.pinimg.com/originals/9d/17/04/9d1704b0f3d9135472efba85d75321be.jpg`}

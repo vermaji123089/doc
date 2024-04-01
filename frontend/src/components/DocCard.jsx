@@ -14,7 +14,8 @@ const DocCard = ({docter}) => {
     <div className="p-3 lg:p-5 ">
       <div style={{ height: "50%" }}>
         <img
-          src={`https://doctor-app-s401.onrender.com/img/${image}`}
+          // src={`https://doctor-app-s401.onrender.com/img/${image}`}
+          src={`https://i.pinimg.com/originals/9d/17/04/9d1704b0f3d9135472efba85d75321be.jpg`}
           className="w-full "
           style={{ height: "100%" }}
           alt=""

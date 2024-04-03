@@ -249,7 +249,7 @@ const Home = () => {
                 </Link>
               </div>
               {/* feature imnage */}
-              <div className="relative z-10 xl:w-[770px] flex justify-end mt-[50px] lg:mt-0 ">
+              <div className="relative z-0 xl:w-[770px] flex justify-end mt-[50px] lg:mt-0 ">
                 <img src={featureImg} className="w-3/4" alt="" />
                 <div className="w-[150px] lg:w-[248px] bg-white absolute bottom-[50px] left-0 md:bottom-[100px] md:left-5 z-20 p-2 pb-3 lg:px-4 lg:pb-[26px] rounded-[10px] ">
                   <div className="flex items-center justify-between">
